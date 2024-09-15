@@ -94,6 +94,7 @@ app.get("/image/:id/:field", async (req, res) => {
         if (!image) {
             return res.status(404).send("Image not found.");
         }
+        console.log(req.params.id);
 
         // Access the field dynamically (either 'imgf' or 'imgb')
         const imageData = image[field];
@@ -107,6 +108,29 @@ app.get("/image/:id/:field", async (req, res) => {
         } else {
             res.status(404).send("Image field not found.");
         }
+    } catch (error) {
+        console.error("Error fetching image:", error);
+        res.status(500).send("Error fetching image.");
+    }
+});
+
+app.get("/:id/", async (req, res) => {
+    const id = req.params.id;
+    try {
+        // Find the image by ID
+        const imageObj = await Image.findById(id);
+
+        if (!imageObj) {
+            return res.status(404).send("Image not found.");
+        }
+
+        // Access the field dynamically (either 'imgf' or 'imgb')
+        const imageData = {
+            caption: imageObj.caption,
+            author: imageObj.author
+        }
+        
+        res.json(imageData);
     } catch (error) {
         console.error("Error fetching image:", error);
         res.status(500).send("Error fetching image.");
@@ -147,6 +171,8 @@ app.post(
                 data: req.files["imgb"][0].buffer,
                 contentType: req.files["imgb"][0].mimetype,
             },
+            caption: req.body.caption,
+            author: req.body.author,
         });
 
         newImage

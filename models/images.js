@@ -13,6 +13,8 @@ const imageSchema = new Schema({
         data: Buffer,
         contentType: String
     },
+    caption: String,
+    author: String
 });
 
 const Image = mongoose.model('Image', imageSchema);
