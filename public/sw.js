@@ -15,7 +15,7 @@ const urlBase64ToUint8Array = base64String => {
 }
 
 const saveSubscription = async (subscription) => {
-    const response = await fetch('http://localhost:3000/save-subscription', {
+    const response = await fetch('http://localhost:8080/save-subscription', {
         method: 'post',
         headers: { 'Content-type': "application/json" },
         body: JSON.stringify(subscription)
@@ -45,7 +45,7 @@ self.addEventListener("push", e => {
         body: "Polaros",
         icon: "image.webp",
         data: {
-            url:'http://localhost:3000/upload'
+            url:'http://localhost:8080/upload'
         },
     }
     self.registration.showNotification
